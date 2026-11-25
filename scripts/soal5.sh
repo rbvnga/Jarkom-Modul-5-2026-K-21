@@ -106,9 +106,3 @@ ping -c 3 deb.debian.org
 ping -c 3 10.74.4.78        # ke Lilith (antar-LAN, rule c)
 # di Gendou
 iptables -t nat -L POSTROUTING -n -v
-
-## Bukti koneksi baru dari NAT1 ditolak (opsional)
-
-## Dari komputer yang menjalankan GNS3, ping IP eth0 Gendou (lihat dengan ip -br a di Gendou). Ping itu harus gagal (timeout). Lalu di Gendou:
-
-## iptables -L INPUT -n -v
