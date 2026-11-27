@@ -1,9 +1,38 @@
 # Jarkom-Modul-5-2026-K-21
 # Soal 1: Subnetting VLSM
 [Hasil Subnetting VLSM K21](https://docs.google.com/spreadsheets/d/1-ahuSv7Fk623vsa5SYlGUh162Nc1hW0h/edit?usp=sharing&ouid=102900172779478181126&rtpof=true&sd=true)
+
 ## Pohon VLSM
+Pohon dibangun dengan membelah blok 10.74.0.0/21 menjadi dua sampai tiap daun berisi satu subnet. Kotak putus-putus adalah blok yang masih kosong.
+<img src="assets/soal1/pohon.png">
+Subnet yang dilingkari (warna merah) adalah jalur Dummy-Plug ke Armisael:
+Dummy-Plug → Switch-Lab → Ritsuko → Asuka → Gendou → Shigeru → Switch-Monolith → Armisael
+<img src="assets/soal1/pohon-rute.png">
+
+| Subnet | Network | Peran di jalur |
+|---|---|---|
+| Lab | 10.74.4.48/29 | LAN tempat Dummy-Plug berada |
+| L13 (Asuka - Ritsuko) | 10.74.4.156/30 | Link Ritsuko ke Asuka |
+| L3 (Gendou - Asuka) | 10.74.4.116/30 | Link Asuka ke Gendou |
+| L6 (Gendou - Shigeru) | 10.74.4.128/30 | Link Gendou ke Shigeru |
+| Monolith | 10.74.4.80/29 | LAN tempat Armisael berada |
+ 
+## 4. Penjelasan hitungan satu subnet: Switch-Quarters
+ 
+Switch-Quarters dipilih karena subnet terbesar dan alokasinya pertama. Langkah hitungnya:
+ 
+1. **Kebutuhan IP.** Quarters berisi 500 host. Router Rei memerlukan satu IP sebagai gateway. IP terpakai = 500 + 1 = **501**.
+2. **Tambah alamat network dan broadcast.** Setiap subnet menyimpan dua alamat yang tidak bisa dipakai host: alamat network (paling awal) dan broadcast (paling akhir). Jumlah alamat yang diperlukan = 501 + 2 = **503**.
+3. **Cari bit host terkecil.** Dicari pangkat dua terkecil yang ≥ 503. 2^8 = 256 masih kurang, 2^9 = 512 sudah cukup. Jadi bit host **h = 9**.
+4. **Prefix.** Prefix = 32 − 9 = **/23** (netmask 255.255.254.0). Ukuran blok = 512 alamat.
+5. **IP usable dan sisa.** IP usable = 512 − 2 = **510**. Sisa = 510 − 501 = **9**.
+6. **Alamat konkret.** Quarters mendapat blok pertama, jadi network = **10.74.0.0**. Gateway = IP usable pertama = **10.74.0.1**. Blok 512 alamat melewati batas oktet ketiga, sehingga broadcast = 10.74.0.0 + 511 = **10.74.1.255**. Range host = **10.74.0.1 – 10.74.1.254**. Node Quarters memakai 10.74.0.2.
+Hasil: **10.74.0.0/23**, gateway 10.74.0.1, broadcast 10.74.1.255, IP terpakai 501, sisa 9.
+ 
 
 # Soal 2: Konfigurasi Router Geofront (K-21, prefix 10.74.0.0/21)
+
+
  
 ## Langkah umum di setiap router
  
